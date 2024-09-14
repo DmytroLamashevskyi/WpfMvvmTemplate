@@ -1,18 +1,20 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace WpfMvvmTemplate.Commands
 {
-    public class AsyncRelayCommand : ICommand
+    public class AsyncRelayCommand<T> : ICommand
     {
-        private readonly Func<Task> _execute;
-        private readonly Func<bool> _canExecute;
+        private readonly Func<T, CancellationToken, Task> _execute;
+        private readonly Predicate<T> _canExecute;
+        private CancellationTokenSource _cts;
         private bool _isExecuting;
 
-        public AsyncRelayCommand(Func<Task> execute, Func<bool> canExecute = null)
+        public AsyncRelayCommand(Func<T, CancellationToken, Task> execute, Predicate<T> canExecute = null)
         {
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
         }
 
@@ -24,22 +26,39 @@ namespace WpfMvvmTemplate.Commands
 
         public bool CanExecute(object parameter)
         {
-            return !_isExecuting && (_canExecute?.Invoke() ?? true);
+            if(_isExecuting)
+                return false;
+
+            if(_canExecute == null)
+                return true;
+
+            return parameter == null && typeof(T).IsValueType
+                ? _canExecute(default(T))
+                : _canExecute((T)parameter);
         }
 
         public async void Execute(object parameter)
         {
             _isExecuting = true;
+            _cts = new CancellationTokenSource();
             RaiseCanExecuteChanged();
+
             try
             {
-                await _execute();
+                await _execute((T)parameter, _cts.Token);
             }
             finally
             {
                 _isExecuting = false;
+                _cts = null;
                 RaiseCanExecuteChanged();
             }
+        }
+
+        public void Cancel()
+        {
+            if(_cts != null && !_cts.IsCancellationRequested)
+                _cts.Cancel();
         }
 
         private void RaiseCanExecuteChanged()
