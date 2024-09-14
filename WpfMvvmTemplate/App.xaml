@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:WpfMvvmTemplate"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Converters/Converters.xaml"/>
+                <ResourceDictionary Source="Resources/Localization/LocalizedStrings.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
