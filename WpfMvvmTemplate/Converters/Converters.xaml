@@ -1,5 +1,21 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:WpfMvvmTemplate.Converters"> 
-    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+                    xmlns:converters="clr-namespace:WpfMvvmTemplate.Converters">
+    <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+    <converters:NumberToBrushConverter  x:Key="NumberToBrushConverter "/>
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+    <converters:EnumToBoolConverter x:Key="EnumToBoolConverter"/>
+    <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
+    <converters:MultiBooleanToVisibilityConverter x:Key="MultiBooleanToVisibilityConverter"/> 
+    <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+    <converters:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter"/> 
+    <converters:RangeToBooleanConverter x:Key="RangeToBooleanConverter"/> 
+    <converters:NullToBoolConverter x:Key="NullToBoolConverter"/>
+    <converters:StringIsNullOrEmptyConverter x:Key="StringIsNullOrEmptyConverter"/>
+    <converters:MultiBooleanToBooleanConverter x:Key="MultiBooleanToBooleanConverter"/>
+    <converters:NumberToBrushConverter x:Key="NumberToBrushConverter"/>
+    <converters:ValueToGradientBrushConverter x:Key="ValueToGradientBrushConverter"/>
+    <converters:RangeToColorConverter x:Key="RangeToColorConverter"/>
+    <converters:NumberToColorConverter x:Key="NumberToColorConverter"/>
 </ResourceDictionary>
